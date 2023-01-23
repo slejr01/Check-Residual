@@ -1,1 +1,3 @@
 # Check-Residual
+Nástroj pro sledování reziduí výpočtů simulací vodní hladiny, nacházejících se v souboru log.run...
+Program načte potřebná data z již zmíněného souboru. Z těchto dat je následně vytvořen graf, který slouží pro kontrolu zda výpočty probíhají v pořádku. Data jsou následně uložena do souboru Results.json, pro snadnější manipulaci s daty v budoucnu.
