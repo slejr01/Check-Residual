@@ -33,53 +33,36 @@ class CheckResidual:
             return Time, P_rgh, Omega, K
 
     Temp_1 = ReadData()
+
     def Float(Temp_1):
         Time, P_rgh, Omega, K = Temp_1
-        time = []
-        final_prgh = []
-        final_omega = []
-        final_k = []
-        Lenght = len(Time)
-        for i in range(Lenght):
-            temp_1 = float(Time[i])
-            time.append(temp_1)
-            temp_2 = float(P_rgh[i])
-            final_prgh.append(temp_2)
-            temp_3 = float(Omega[i])
-            final_omega.append(temp_3)
-            temp_4 = float(K[i])
-            final_k.append(temp_4)
+        time = [float(t) for t in Time]
+        final_prgh = [float(p) for p in P_rgh]
+        final_omega = [float(o) for o in Omega]
+        final_k = [float(k) for k in K]
         return time, final_prgh, final_omega, final_k
-
     Temp_2 = Float(Temp_1)
 
     def JSON(Temp_2):
         time, final_prgh, final_omega, final_k = Temp_2
-        Time_json = json.dumps(time, indent=4)
-        Prgh_json = json.dumps(final_prgh, indent=4)
-        Omega_json = json.dumps(final_omega, indent=4)
-        K_json = json.dumps(final_k, indent=4)
+        data = {
+            "Time": time,
+            "P_rgh": final_prgh,
+            "Omega": final_omega,
+            "K": final_k
+        }
         with open("Results.json", "w") as outfile:
-            outfile.write(Time_json)
-            outfile.write(Prgh_json)
-            outfile.write(Omega_json)
-            outfile.write(K_json)
-        outfile.close()
-        return Time_json, Prgh_json, Omega_json, K_json
+            json.dump(data, outfile, indent=4)
+        return json.dumps(data, indent=4)
+
     JSON(Temp_2)
 class Graph:
 
     def Plot_Graph():
         time, final_prgh, final_omega, final_k = CheckResidual.Temp_2
-        x1 = time
-        y1 = final_prgh
-        plt.plot(x1, y1, label="P_rgh")
-        x2 = time
-        y2 = final_omega
-        plt.plot(x2, y2, label="Omega")
-        x3 = time
-        y3 = final_k
-        plt.plot(x3, y3, label="K")
+        plt.plot(time, final_prgh, label="P_rgh")
+        plt.plot(time, final_omega, label="Omega")
+        plt.plot(time, final_k, label="K")
         plt.yscale("log")
         plt.xlabel("Time")
         plt.ylabel("Final residual")
